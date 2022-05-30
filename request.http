@@ -36,3 +36,6 @@ Content-Type: application/json
     ],
     "instructions": []
 }
+
+### search recipes by tag
+GET http://localhost:8080/recipes/search?tag=italian
