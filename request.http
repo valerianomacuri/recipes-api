@@ -26,3 +26,7 @@ Content-Type: application/json
     ],
     "publishedAt": "2021-01-17T19:28:52.803062+01:00"
 },
+
+###
+
+GET http://localhost:8080/recipes
