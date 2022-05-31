@@ -22,3 +22,6 @@ go.work
 
 # Air tmp files
 tmp/
+
+# Env files
+.env

@@ -21,7 +21,7 @@ GET http://localhost:8080/recipes
 
 ###
 
-PUT http://localhost:8080/recipes/caal1b06f2qcktvbb1bg
+PUT http://localhost:8080/recipes/629652ceae2b50bda3e874d2
 Content-Type: application/json
 
 {
@@ -37,5 +37,8 @@ Content-Type: application/json
     "instructions": []
 }
 
-### search recipes by tag
+### search recipes by tag [DEPRECATED]
 GET http://localhost:8080/recipes/search?tag=italian
+
+### delete recipe
+DELETE http://localhost:8080/recipes/629652ceae2b50bda3e874d2
