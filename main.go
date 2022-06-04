@@ -24,6 +24,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/valerianomacuri/recipes-api/handlers"
+	"github.com/valerianomacuri/recipes-api/seed"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -33,16 +34,13 @@ var ctx context.Context
 var err error
 var client *mongo.Client
 var recipesHandler *handlers.RecipesHandler
+var authHandler *handlers.AuthHandler
 
 func init() {
 	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	// * insert recipes to mongodb
-	// recipes = make([]Recipe, 0)
-	// file, _ := ioutil.ReadFile("recipes.json")
-	// _ = json.Unmarshal([]byte(file), &recipes)
 
 	ctx = context.Background()
 	client, err = mongo.Connect(ctx, options.Client().ApplyURI(os.Getenv("MONGO_URI")))
@@ -53,25 +51,29 @@ func init() {
 
 	collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
 	recipesHandler = handlers.NewRecipesHandler(ctx, collection)
-	// * insert recipes to mongodb
-	// var listOfRecipes []interface{}
-	// for _, recipe := range recipes {
-	// 	listOfRecipes = append(listOfRecipes, recipe)
-	// }
-	// collection := client.Database(os.Getenv("MONGO_DATABASE")).Collection("recipes")
-	// insertManyResult, err := collection.InsertMany(ctx, listOfRecipes)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// log.Println("Insert recipes: ", len(insertManyResult.InsertedIDs))
+	collectionUsers := client.Database(os.Getenv("MONGO_DATABASE")).Collection("users")
+	authHandler = handlers.NewAuthHandler(ctx, collectionUsers)
 }
 
 func main() {
 	router := gin.Default()
-	router.POST("/recipes", recipesHandler.NewRecipeHandler)
+
 	router.GET("/recipes", recipesHandler.ListRecipesHandler)
-	router.PUT("/recipes/:id", recipesHandler.UpdateRecipeHandler)
-	router.DELETE("/recipes/:id", recipesHandler.DeleteRecipeHandler)
-	router.GET("/recipes/:id", recipesHandler.GetRecipeHandler)
+	router.POST("/insert-users", seed.InsertUsers)
+	router.DELETE("/delete-users", seed.RemoveRecipes)
+	router.POST("/insert-recipes", seed.InsertRecipes)
+
+	router.POST("/signin", authHandler.SignInHandler)
+	router.POST("/refresh", authHandler.RefreshHandler)
+
+	authorized := router.Group("/")
+	authorized.Use(authHandler.AuthMiddleware())
+	{
+		authorized.POST("/recipes", recipesHandler.NewRecipeHandler)
+		authorized.PUT("/recipes/:id", recipesHandler.UpdateRecipeHandler)
+		authorized.DELETE("/recipes/:id", recipesHandler.DeleteRecipeHandler)
+		authorized.GET("/recipes/:id", recipesHandler.GetRecipeHandler)
+	}
+
 	router.Run()
 }

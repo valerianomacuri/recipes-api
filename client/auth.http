@@ -1,0 +1,16 @@
+POST http://localhost:8080/signin
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "fCRmh4Q2J7Rseqkz"
+}
+
+### 
+POST http://localhost:8080/insert-users
+
+###
+DELETE http://localhost:8080/delete-users
+
+###
+POST http://localhost:8080/insert-recipes

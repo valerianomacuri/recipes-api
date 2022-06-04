@@ -1,5 +1,7 @@
+### tested
 POST http://localhost:8080/recipes
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjU0Mzg0MzkxfQ.gGVYD7rjvXDb1_bsyeCZCVA6oFWsQ3yz38wC2ne0S4k
 
 {
     "name": "Homemade Pizza",
@@ -14,15 +16,14 @@ Content-Type: application/json
     "instructions": []
 }
 
-###
+### tested
+GET http://localhost:8080/recipes/629be55fc8dc0af8e5a64ee8
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjU0Mzg0MzkxfQ.gGVYD7rjvXDb1_bsyeCZCVA6oFWsQ3yz38wC2ne0S4k
 
-GET http://localhost:8080/recipes
-
-
-###
-
-PUT http://localhost:8080/recipes/629652ceae2b50bda3e874d2
+### tested
+PUT http://localhost:8080/recipes/629652ceae2b50bda3e874d3
 Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjU0Mzg0MzkxfQ.gGVYD7rjvXDb1_bsyeCZCVA6oFWsQ3yz38wC2ne0S4k
 
 {
     "name": "Pepperoni Pizza",
@@ -40,5 +41,6 @@ Content-Type: application/json
 ### search recipes by tag [DEPRECATED]
 GET http://localhost:8080/recipes/search?tag=italian
 
-### delete recipe
-DELETE http://localhost:8080/recipes/629652ceae2b50bda3e874d2
+### tested
+DELETE http://localhost:8080/recipes/629652ceae2b50bda3e874d3
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjU0Mzg0MzkxfQ.gGVYD7rjvXDb1_bsyeCZCVA6oFWsQ3yz38wC2ne0S4k
